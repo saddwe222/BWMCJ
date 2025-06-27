@@ -1,666 +1,794 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>员工加钱福利系统</title>
+    <title>BWM - 穆哈兰姆圣月特别活动</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            background: linear-gradient(135deg, #0d2b4e, #1a4b7a, #0d2b4e);
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
+            font-family: 'Poppins', sans-serif;
             color: #333;
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-        
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
         
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
+            max-width: 1200px;
+            width: 100%;
+            background: linear-gradient(to bottom, #f8f5f0, #e8e5e0);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .islamic-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(180, 149, 50, 0.05) 0%, rgba(180, 149, 50, 0.05) 20%, transparent 20%, transparent 100%),
+                radial-gradient(circle at 80% 10%, rgba(180, 149, 50, 0.05) 0%, rgba(180, 149, 50, 0.05) 20%, transparent 20%, transparent 100%),
+                radial-gradient(circle at 20% 80%, rgba(180, 149, 50, 0.05) 0%, rgba(180, 149, 50, 0.05) 20%, transparent 20%, transparent 100%);
+            opacity: 0.3;
+            z-index: 0;
         }
         
         header {
+            background: linear-gradient(90deg, #0d2b4e, #1a4b7a);
+            color: #fff;
+            padding: 30px;
             text-align: center;
-            padding: 30px 0;
-            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            border-bottom: 5px solid #b49532;
         }
         
-        h1 {
-            color: white;
-            font-size: 3rem;
-            text-shadow: 0 2px 15px rgba(0,0,0,0.3);
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 3.5rem;
+            color: #b49532;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        header h1 {
+            font-family: 'Noto Naskh Arabic', serif;
+            font-size: 2.8rem;
             margin-bottom: 15px;
-            background: linear-gradient(to right, #ffd700, #ff9800);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #fff;
             letter-spacing: 1px;
         }
         
         .subtitle {
-            color: rgba(255,255,255,0.85);
-            font-size: 1.3rem;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-        
-        .panel {
-            background: rgba(255, 255, 255, 0.93);
-            border-radius: 18px;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.25);
-            overflow: hidden;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.2);
-            margin-bottom: 30px;
-        }
-        
-        .panel-header {
-            background: linear-gradient(to right, #4776E6, #8E54E9);
-            color: white;
-            padding: 22px;
-            text-align: center;
-            font-size: 1.6rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-        
-        .panel-content {
-            padding: 30px;
-        }
-        
-        .input-group {
-            margin-bottom: 30px;
-            position: relative;
-        }
-        
-        label {
-            display: block;
+            font-size: 1.5rem;
+            opacity: 0.9;
             margin-bottom: 10px;
-            font-weight: 600;
-            color: #555;
+            color: #b49532;
+            font-weight: 500;
+        }
+        
+        .event-period {
+            background: rgba(180, 149, 50, 0.2);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
             font-size: 1.1rem;
+            margin-top: 15px;
+            border: 1px solid rgba(180, 149, 50, 0.3);
         }
         
-        input[type="text"] {
-            width: 100%;
-            padding: 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 17px;
-            transition: all 0.3s;
-            background: rgba(255,255,255,0.9);
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.08);
+        .content {
+            display: flex;
+            padding: 30px;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
         }
         
-        input[type="text"]:focus {
-            border-color: #4a90e2;
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.25);
+        .left-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
         
-        .btn-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 18px;
-            margin-top: 25px;
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
         
-        .btn {
-            padding: 14px 16px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            border: 1px solid rgba(180, 149, 50, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-title {
+            color: #0d2b4e;
+            font-family: 'Noto Naskh Arabic', serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #b49532;
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
-            font-size: 1.05rem;
+            gap: 12px;
+        }
+        
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .rule-card {
+            background: #f8f7f5;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #b49532;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
         
-        .btn::after {
-            content: '';
+        .rule-card::before {
+            content: "";
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: 0.5s;
+            top: -10px;
+            right: -10px;
+            width: 40px;
+            height: 40px;
+            background: #b49532;
+            border-radius: 50%;
+            opacity: 0.1;
         }
         
-        .btn:hover::after {
-            left: 100%;
+        .rule-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         
-        .btn i {
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        }
-        
-        .btn:active {
-            transform: translateY(1px);
-        }
-        
-        .btn-small {
-            padding: 9px 14px;
-            font-size: 0.95rem;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
-            color: white;
-        }
-        
-        .btn-success {
-            background: linear-gradient(to right, #0ba360 0%, #3cba92 100%);
-            color: white;
-        }
-        
-        .btn-warning {
-            background: linear-gradient(to right, #f6d365 0%, #fda085 100%);
-            color: white;
-        }
-        
-        .btn-danger {
-            background: linear-gradient(to right, #ff5858 0%, #f09819 100%);
-            color: white;
-        }
-        
-        .btn-purple {
-            background: linear-gradient(to right, #834d9b 0%, #d04ed6 100%);
-            color: white;
-        }
-        
-        .btn-gold {
-            background: linear-gradient(to right, #FFD700 0%, #FFA500 100%);
-            color: #333;
-        }
-        
-        .results-container {
-            margin-top: 35px;
-            border-top: 2px solid #f0f0f0;
-            padding-top: 25px;
-        }
-        
-        .results-header {
+        .rule-card h3 {
+            color: #0d2b4e;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 8px;
+        }
+        
+        .rule-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .calculator-form .input-group {
             margin-bottom: 20px;
         }
         
-        .results-title {
-            font-size: 1.4rem;
-            color: #444;
-            font-weight: 700;
-        }
-        
-        .results-list {
-            max-height: 450px;
-            overflow-y: auto;
-            border: 2px solid #eee;
-            border-radius: 12px;
-            padding: 20px;
-            background: #f9f9f9;
-        }
-        
-        .result-item {
+        .calculator-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #0d2b4e;
+            font-size: 1.1rem;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 16px 20px;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: all 0.3s;
-            border-left: 5px solid #4a90e2;
-            position: relative;
-        }
-        
-        .result-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, rgba(74, 144, 226, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-        
-        .result-item:hover::before {
-            opacity: 1;
-        }
-        
-        .result-item:hover {
-            transform: translateX(8px);
-            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-        }
-        
-        .result-text {
-            font-family: 'Courier New', monospace;
-            font-size: 17px;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex: 1;
-        }
-        
-        .result-actions {
-            display: flex;
             gap: 10px;
         }
         
-        .no-results {
-            text-align: center;
-            color: #777;
-            padding: 30px;
-            font-style: italic;
+        .calculator-form input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
             font-size: 1.1rem;
+            transition: all 0.3s;
+            background: #f8f7f5;
         }
         
-        .prize-icon {
-            font-size: 1.5rem;
-            margin-right: 12px;
-            vertical-align: middle;
+        .calculator-form input:focus {
+            border-color: #0d2b4e;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(13, 43, 78, 0.2);
         }
         
-        .footer {
-            text-align: center;
-            color: rgba(255,255,255,0.85);
-            padding: 25px;
-            margin-top: 30px;
-            font-size: 1rem;
-            background: rgba(0,0,0,0.2);
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
-        }
-        
-        .record-counter {
-            display: inline-block;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
+        .calculate-btn {
+            background: linear-gradient(90deg, #0d2b4e, #1a4b7a);
             color: white;
-            border-radius: 20px;
-            padding: 5px 15px;
-            font-weight: bold;
-            margin-left: 10px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            border: none;
+            border-radius: 12px;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
         }
         
-        .selection-container {
-            display: flex;
-            gap: 20px;
+        .calculate-btn::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(30deg);
+            transition: all 0.6s;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(90deg, #1a4b7a, #0d2b4e);
+        }
+        
+        .calculate-btn:hover::after {
+            left: 100%;
+        }
+        
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .results-card {
+            background: linear-gradient(135deg, #f8f5f0, #e8e5e0);
+            border: 2px dashed #0d2b4e;
+            border-radius: 15px;
+            padding: 25px;
+            min-height: 200px;
+            position: relative;
+        }
+        
+        .bonus-summary {
             margin-bottom: 25px;
         }
         
-        .selection-group {
-            flex: 1;
+        .bonus-summary h4 {
+            font-size: 1.4rem;
+            color: #0d2b4e;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        @media (max-width: 900px) {
-            .btn-container {
-                grid-template-columns: repeat(2, 1fr);
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(13, 43, 78, 0.1);
+        }
+        
+        .summary-label {
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .summary-value {
+            font-weight: 700;
+            color: #0d2b4e;
+        }
+        
+        .bonus-amount {
+            color: #b21f1f;
+            font-weight: 800;
+        }
+        
+        .congrats-section {
+            background: rgba(180, 149, 50, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            border-left: 4px solid #b49532;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .congrats-section::before {
+            content: "  ";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            color: rgba(180, 149, 50, 0.1);
+            font-size: 2rem;
+            z-index: 0;
+        }
+        
+        .congrats-section h4 {
+            font-family: 'Noto Naskh Arabic', serif;
+            font-size: 1.6rem;
+            color: #0d2b4e;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .congrats-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(180, 149, 50, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .highlight {
+            color: #0d2b4e;
+            font-weight: 700;
+        }
+        
+        .gold-text {
+            color: #b49532;
+            font-weight: 700;
+        }
+        
+        .copy-btn {
+            background: #0d2b4e;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            margin-top: 20px;
+            width: 100%;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .copy-btn:hover {
+            background: #b49532;
+            transform: translateY(-2px);
+        }
+        
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: #1a4b7a;
+            color: white;
+            padding: 18px 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+            transform: translateX(150%);
+            transition: transform 0.4s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        @media (max-width: 992px) {
+            .content {
+                flex-direction: column;
             }
             
-            h1 {
+            header h1 {
                 font-size: 2.2rem;
             }
             
-            .selection-container {
-                flex-direction: column;
-                gap: 15px;
+            .subtitle {
+                font-size: 1.2rem;
             }
         }
         
-        @media (max-width: 500px) {
-            .btn-container {
-                grid-template-columns: 1fr;
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
             }
             
-            .result-actions {
-                flex-direction: column;
-                gap: 8px;
+            header {
+                padding: 20px;
             }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .rules-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        footer {
+            background: #0d2b4e;
+            color: #b49532;
+            text-align: center;
+            padding: 20px;
+            font-size: 1rem;
+            border-top: 2px solid #b49532;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .profit-explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(180, 149, 50, 0.1);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .profit-formula {
+            font-weight: 700;
+            color: #0d2b4e;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="islamic-pattern"></div>
+        
         <header>
-            <h1><i class="fas fa-gift"></i> 三分天注定，七分靠打拼</h1>
-            <p class="subtitle">探大钱，起大厝，娶水某，开厚掐</p>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-mosque"></i>
+                </div>
+                <h1>穆哈兰姆圣月特别活动</h1>
+                <div class="subtitle">BWM 推出"多重善举"特别活动</div>
+                <div class="event-period">
+                    <i class="fas fa-calendar-alt"></i> 活动为期 30 天
+                </div>
+            </div>
         </header>
         
-        <!-- 合并后的操作面板 -->
-        <div class="panel">
-            <div class="panel-header">
-                <i class="fas fa-user-plus"></i> 傻人有傻福，天公疼憨人
-            </div>
-            <div class="panel-content">
-                <div class="input-group">
-                    <label for="employee-number"><i class="fas fa-id-card"></i> 请输入员工号码</label>
-                    <input type="text" id="employee-number" placeholder="例如: 82145788009, 88226563832...">
+        <div class="content">
+            <div class="left-panel">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-gift"></i> 活动详情</h2>
+                    <div class="rules-grid">
+                        <div class="rule-card">
+                            <h3><i class="fas fa-star gold-text"></i> 基础收益</h3>
+                            <p>每日收益：<span class="highlight">1.5%</span>（遵循伊斯兰教法原则）</p>
+                            <div class="profit-explanation">
+                                <p><strong>每日利润计算：</strong></p>
+                                <p class="profit-formula">每日利润 = (本金 + 奖金) × 1.5%</p>
+                                <p>此计算方式遵循伊斯兰教法利润分享原则(Mudharabah)，确保收益的公平性和透明度。</p>
+                            </div>
+                        </div>
+                        <div class="rule-card">
+                            <h3><i class="fas fa-coins gold-text"></i> 等级 1</h3>
+                            <p>购买金额 <span class="highlight">10万至20万印尼盾</span>：额外奖励 <span class="highlight">1%</span></p>
+                        </div>
+                        <div class="rule-card">
+                            <h3><i class="fas fa-coins gold-text"></i> 等级 2</h3>
+                            <p>购买金额 <span class="highlight">20万至50万印尼盾</span>：额外奖励 <span class="highlight">2%</span></p>
+                        </div>
+                        <div class="rule-card">
+                            <h3><i class="fas fa-coins gold-text"></i> 等级 3</h3>
+                            <p>购买金额 <span class="highlight">50万至100万印尼盾</span>：额外奖励 <span class="highlight">3%</span></p>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="selection-container">
-                    <div class="selection-group">
-                        <label><i class="fas fa-gift"></i> 选择现金类型</label>
-                        <div class="btn-container">
-                            <button class="btn btn-success" onclick="setRedPacket('  +9900')">
-                                <i class="fas fa-gift"></i> M1
-                            </button>
-                            <button class="btn btn-warning" onclick="setRedPacket('  +29250')">
-                                <i class="fas fa-gifts"></i> M2
-                            </button>
-                            <button class="btn btn-danger" onclick="setRedPacket('  +101250')">
-                                <i class="fas fa-star"></i> M3
-                            </button>
-                        </div>
+                <div class="card calculator-form">
+                    <h2 class="card-title"><i class="fas fa-calculator"></i> 奖金计算器</h2>
+                    <div class="input-group">
+                        <label for="amount"><i class="fas fa-money-bill-wave"></i> 购买金额 (印尼盾):</label>
+                        <input type="number" id="amount" placeholder="请输入购买金额">
                     </div>
                     
-                    <div class="selection-group">
-                        <label><i class="fas fa-trophy"></i> 选择抽奖奖品</label>
-                        <div class="btn-container">
-                            <button class="btn btn-primary" onclick="setPrize('8000')">
-                                <i class="fas fa-coins"></i> 8000
-                            </button>
-                            <button class="btn btn-success" onclick="setPrize('3w')">
-                                <i class="fas fa-money-bill-wave"></i> 3w
-                            </button>
-                            <button class="btn btn-warning" onclick="setPrize('充电宝')">
-                                <i class="fas fa-battery-full"></i> 充电宝
-                            </button>
-                            <button class="btn btn-danger" onclick="setPrize('10w')">
-                                <i class="fas fa-wallet"></i> 10w
-                            </button>
-                            <button class="btn btn-purple" onclick="setPrize('剃须刀')">
-                                <i class="fas fa-gem"></i> 剃须刀
-                            </button>
-                            <button class="btn btn-blue" onclick="setPrize('电风扇')">
-                                <i class="fas fa-gem"></i> 电风扇
-                            </button>
-                            <button class="btn btn-purple" onclick="setPrize('30w')">
-                                <i class="fas fa-gem"></i> 30w
-                            </button>
-                            <button class="btn btn-gold" onclick="setPrize('70w')">
-                                <i class="fas fa-crown"></i> 70w
-                            </button>
+                    <div class="input-group">
+                        <label for="account"><i class="fas fa-user"></i> 账户号码:</label>
+                        <input type="text" id="account" placeholder="请输入您的账户号码">
+                    </div>
+                    
+                    <button class="calculate-btn" id="calculateBtn">
+                        <i class="fas fa-calculator"></i> 计算奖金
+                    </button>
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <div class="card results-card">
+                    <h2 class="card-title"><i class="fas fa-file-invoice-dollar"></i> 计算结果</h2>
+                    <div id="resultsContent">
+                        <div class="placeholder-text">
+                            <p>请输入购买金额和账户号码，然后点击"计算奖金"按钮</p>
+                            <div style="text-align: center; margin-top: 20px; opacity: 0.6;">
+                                <i class="fas fa-calculator" style="font-size: 3rem;"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <button class="btn btn-success" style="width: 100%; padding: 16px; margin-top: 20px;" onclick="generateRecord()">
-                    <i class="fas fa-plus-circle"></i> 生成记录
-                </button>
-            </div>
-        </div>
-        
-        <!-- 记录面板 -->
-        <div class="panel">
-            <div class="panel-header">
-                <i class="fas fa-list"></i> 记录管理
-                <span class="record-counter" id="record-counter">0</span>
-            </div>
-            <div class="panel-content">
-                <div class="results-header">
-                    <div class="results-title"><i class="fas fa-history"></i> 抽奖与红包记录</div>
-                    <div>
-                        <button class="btn btn-danger" onclick="deleteAllRecords()">
-                            <i class="fas fa-trash"></i> 批量删除
-                        </button>
-                        <button class="btn btn-primary" onclick="copyAllRecords()">
-                            <i class="fas fa-copy"></i> 全部复制
-                        </button>
+                <div class="congrats-section">
+                    <h4><i class="fas fa-award"></i> 恭喜话术</h4>
+                    <div class="congrats-content" id="congratsContent">
+                        <p>奖金计算后，恭喜话术将显示在这里</p>
                     </div>
-                </div>
-                <div id="records-list" class="results-list">
-                    <div class="no-results">暂无记录，请进行操作</div>
+                    <button class="copy-btn" id="copyCongratsBtn">
+                        <i class="fas fa-copy"></i> 复制恭喜话术
+                    </button>
                 </div>
             </div>
         </div>
         
-        <div class="footer">
-            <p>© 勤俭是咱的名，打拼是咱的命</p>
-        </div>
+        <footer>
+            <p>© 2023 BWM - 遵循伊斯兰教法原则 | 穆哈兰姆圣月特别活动</p>
+        </footer>
+    </div>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> 恭喜话术已复制到剪贴板！
     </div>
     
     <script>
-        // 存储记录
-        let records = [];
-        let currentRedPacket = null;
-        let currentPrize = null;
-        
-        // 设置红包类型
-        function setRedPacket(packetType) {
-            currentRedPacket = packetType;
-            updateButtonStates();
-        }
-        
-        // 设置奖品
-        function setPrize(prize) {
-            currentPrize = prize;
-            updateButtonStates();
-        }
-        
-        // 更新按钮状态
-        function updateButtonStates() {
-            // 这里可以添加按钮高亮逻辑
-        }
-        
-        // 生成记录
-        function generateRecord() {
-            const input = document.getElementById('employee-number');
-            const numbers = parseInput(input.value);
-            
-            if (numbers.length === 0) {
-                alert('请输入有效的员工号码！');
-                return;
-            }
-            
-            if (!currentRedPacket) {
-                alert('请选择红包类型！');
-                return;
-            }
-            
-            if (!currentPrize) {
-                alert('请选择抽奖奖品！');
-                return;
-            }
-            
-            // 只取最后一个号码
-            const number = numbers[numbers.length - 1];
-            
-            // 创建记录
-            const record = {
-                id: Date.now(),
-                number: number,
-                redPacket: currentRedPacket,
-                prize: currentPrize,
-                timestamp: new Date().toLocaleString()
-            };
-            
-            records.unshift(record); // 添加到开头
-            renderRecords();
-            updateRecordCounter();
-            
-            // 清空输入框
-            input.value = '';
-        }
-        
-        // 解析输入，支持逗号、空格、换行分隔
-        function parseInput(input) {
-            return input.split(/[,，\s\n]+/).filter(num => num.trim() !== '');
-        }
-        
-        // 渲染记录
-        function renderRecords() {
-            const container = document.getElementById('records-list');
-            
-            if (records.length === 0) {
-                container.innerHTML = '<div class="no-results">暂无记录，请进行操作</div>';
-                return;
-            }
-            
-            container.innerHTML = '';
-            
-            records.forEach(record => {
-                const resultItem = document.createElement('div');
-                resultItem.className = 'result-item';
-                resultItem.dataset.id = record.id;
-                
-                const resultText = document.createElement('div');
-                resultText.className = 'result-text';
-                resultText.innerHTML = `
-                    <div><i class="fas fa-user"></i> ${record.number}</div>
-                    <div><i class="fas fa-hand-holding-usd"></i> ${record.redPacket} + <i class="fas fa-gift"></i> 抽奖${record.prize}</div>
-                    <div style="font-size: 0.9rem; color: #666;"><i class="fas fa-clock"></i> ${record.timestamp}</div>
-                `;
-                
-                const resultActions = document.createElement('div');
-                resultActions.className = 'result-actions';
-                
-                const copyBtn = document.createElement('button');
-                copyBtn.className = 'btn btn-primary btn-small';
-                copyBtn.innerHTML = '<i class="fas fa-copy"></i> 复制';
-                copyBtn.onclick = function() {
-                    copyRecord(record);
-                    this.innerHTML = '<i class="fas fa-check"></i> 已复制';
-                    setTimeout(() => {
-                        this.innerHTML = '<i class="fas fa-copy"></i> 复制';
-                    }, 2000);
-                };
-                
-                const deleteBtn = document.createElement('button');
-                deleteBtn.className = 'btn btn-danger btn-small';
-                deleteBtn.innerHTML = '<i class="fas fa-trash"></i> 删除';
-                deleteBtn.onclick = function() {
-                    deleteRecord(record.id);
-                };
-                
-                resultActions.appendChild(copyBtn);
-                resultActions.appendChild(deleteBtn);
-                resultItem.appendChild(resultText);
-                resultItem.appendChild(resultActions);
-                
-                container.appendChild(resultItem);
-            });
-        }
-        
-        // 复制记录
-        function copyRecord(record) {
-            const text = `${record.number} ${record.redPacket}     + 抽奖${record.prize}`;
-            copyToClipboard(text);
-        }
-        
-        // 删除记录
-        function deleteRecord(id) {
-            records = records.filter(record => record.id !== id);
-            renderRecords();
-            updateRecordCounter();
-        }
-        
-        // 批量删除记录
-        function deleteAllRecords() {
-            if (records.length === 0) {
-                alert('没有可删除的记录！');
-                return;
-            }
-            
-            if (confirm('确定要删除所有记录吗？')) {
-                records = [];
-                renderRecords();
-                updateRecordCounter();
-            }
-        }
-        
-        // 复制所有记录
-        function copyAllRecords() {
-            if (records.length === 0) {
-                alert('没有可复制的内容！');
-                return;
-            }
-            
-            let allText = records.map(record => 
-                `${record.number} ${record.redPacket} + 抽奖${record.prize}`
-            ).join('\n');
-            
-            copyToClipboard(allText);
-            
-            // 显示复制成功的反馈
-            const copyBtns = document.querySelectorAll('.result-actions .btn-primary');
-            copyBtns.forEach(btn => {
-                const originalHtml = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i> 已复制';
-                setTimeout(() => {
-                    btn.innerHTML = originalHtml;
-                }, 2000);
-            });
-        }
-        
-        // 复制到剪贴板
-        function copyToClipboard(text) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-        }
-        
-        // 更新记录计数器
-        function updateRecordCounter() {
-            document.getElementById('record-counter').textContent = records.length;
-        }
-        
-        // 初始化
         document.addEventListener('DOMContentLoaded', function() {
-            // 示例数据
-            records = [
-                {
-                    id: 1,
-                    number: "82145788009",
-                    redPacket: "M1红包",
-                    prize: "30000",
-                    timestamp: "2023/10/15 14:30:22"
-                },
-                {
-                    id: 2,
-                    number: "83849987918",
-                    redPacket: "M2红包",
-                    prize: "充电宝",
-                    timestamp: "2023/10/15 14:25:10"
+            const amountInput = document.getElementById('amount');
+            const accountInput = document.getElementById('account');
+            const calculateBtn = document.getElementById('calculateBtn');
+            const resultsContent = document.getElementById('resultsContent');
+            const congratsContent = document.getElementById('congratsContent');
+            const copyCongratsBtn = document.getElementById('copyCongratsBtn');
+            const notification = document.getElementById('notification');
+            
+            // 格式化印尼盾金额
+            function formatRupiah(amount) {
+                return new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(amount);
+            }
+            
+            // 根据金额计算奖金
+            function calculateBonus(amount) {
+                if (amount >= 500000 && amount <= 1000000) {
+                    return { 
+                        percentage: 3, 
+                        bonus: amount * 0.03
+                    };
+                } else if (amount >= 200000 && amount < 500000) {
+                    return { 
+                        percentage: 2, 
+                        bonus: amount * 0.02
+                    };
+                } else if (amount >= 100000 && amount < 200000) {
+                    return { 
+                        percentage: 1, 
+                        bonus: amount * 0.01
+                    };
+                } else {
+                    return { 
+                        percentage: 0, 
+                        bonus: 0
+                    };
                 }
-            ];
-            renderRecords();
-            updateRecordCounter();
+            }
+            
+            // 生成恭喜话术
+            function generateCongratulations(amount, account, bonusData) {
+                // 计算每日利润（本金+奖金）*1.5%
+                const dailyProfit = (amount + bonusData.bonus) * 0.015;
+                const totalProfit = dailyProfit * 30;
+                
+                const formattedAmount = formatRupiah(amount);
+                const formattedBonus = formatRupiah(bonusData.bonus);
+                const formattedDailyProfit = formatRupiah(dailyProfit);
+                const formattedTotalProfit = formatRupiah(totalProfit);
+                
+                return `
+                    <p>Selamat atas pembelian Anda yang berhasil*<span class="gold-text">${formattedAmount}*-Edisi Spesial Tahun Baru Islam-30 hari</span>(Sesuai Syariah)！</p>
+                    
+                    <p style="margin-top: 15px;">Menurut prinsip pembagian keuntungan Islam（Mudharabah），Anda akan mendapatkan：</p>
+                    
+                    <p style="margin-top: 10px;">🔹 Rasio bagi hasil: keuntungan harian proyek<span class="highlight">1.5%</span></p>
+                    <p>🔹 Bonus tambahan:*<span class="highlight">${formattedBonus}</span>*(Berdasarkan distribusi keuntungan aktual proyek)</p>
+                    <p>🔹 Keuntungan Harian:*<span class="highlight">${formattedDailyProfit}</span>*(Dihitung berdasarkan pokok + bonus)</p>
+                    <p>🔹 Total keuntungan setelah 30 hari:*<span class="highlight">${formattedTotalProfit}</span>*(tidak termasuk pokok)。</p>
+                    
+                    <p style="margin-top: 15px;">Setelah proyek selesai, pokok dan keuntungan akan secara otomatis dikembalikan ke akun BWM Anda sesuai dengan kontrak Islam.</p>
+                `;
+            }
+            
+            // 更新结果和恭喜话术
+            function updateResults() {
+                const amount = parseFloat(amountInput.value);
+                const account = accountInput.value.trim();
+                
+                if (!amount || isNaN(amount)) {
+                    resultsContent.innerHTML = `
+                        <div class="placeholder-text">
+                            <p style="color: #b21f1f; font-weight: 500;">
+                                <i class="fas fa-exclamation-circle"></i> 请输入有效的购买金额
+                            </p>
+                        </div>
+                    `;
+                    congratsContent.innerHTML = `<p>奖金计算后，恭喜话术将显示在这里</p>`;
+                    return;
+                }
+                
+                if (!account) {
+                    resultsContent.innerHTML = `
+                        <div class="placeholder-text">
+                            <p style="color: #b21f1f; font-weight: 500;">
+                                <i class="fas fa-exclamation-circle"></i> 请输入您的账户号码
+                            </p>
+                        </div>
+                    `;
+                    congratsContent.innerHTML = `<p>奖金计算后，恭喜话术将显示在这里</p>`;
+                    return;
+                }
+                
+                const bonusData = calculateBonus(amount);
+                
+                if (bonusData.percentage === 0) {
+                    resultsContent.innerHTML = `
+                        <div class="bonus-summary">
+                            <h4><i class="fas fa-info-circle"></i> 计算结果</h4>
+                            <p style="margin-bottom: 15px;">购买金额 <span class="highlight">${formatRupiah(amount)}</span> 不符合任何奖金等级的要求。</p>
+                            <p>最低奖金申请金额为 <span class="highlight">${formatRupiah(100000)}</span>。</p>
+                        </div>
+                    `;
+                    congratsContent.innerHTML = `<p>奖金计算后，恭喜话术将显示在这里</p>`;
+                } else {
+                    // 计算每日利润（本金+奖金）*1.5%
+                    const dailyProfit = (amount + bonusData.bonus) * 0.015;
+                    const totalProfit = dailyProfit * 30;
+                    
+                    resultsContent.innerHTML = `
+                        <div class="bonus-summary">
+                            <h4><i class="fas fa-coins"></i> 收益摘要</h4>
+                            
+                            <div class="summary-item">
+                                <span class="summary-label">账户号码:</span>
+                                <span class="summary-value">${account}</span>
+                            </div>
+                            
+                            <div class="summary-item">
+                                <span class="summary-label">购买金额:</span>
+                                <span class="summary-value">${formatRupiah(amount)}</span>
+                            </div>
+                            
+                            <div class="summary-item">
+                                <span class="summary-label">奖金比例:</span>
+                                <span class="summary-value">${bonusData.percentage}%</span>
+                            </div>
+                            
+                            <div class="summary-item">
+                                <span class="summary-label">额外奖励:</span>
+                                <span class="summary-value bonus-amount">${formatRupiah(bonusData.bonus)}</span>
+                            </div>
+                            
+                            <div class="summary-item">
+                                <span class="summary-label">每日利润:</span>
+                                <span class="summary-value">${formatRupiah(dailyProfit)}</span>
+                                <small style="color:#777; font-size:0.9rem;">(本金+奖金)×1.5%</small>
+                            </div>
+                            
+                            <div class="summary-item">
+                                <span class="summary-label">30天总利润:</span>
+                                <span class="summary-value">${formatRupiah(totalProfit)}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // 生成恭喜话术
+                    congratsContent.innerHTML = generateCongratulations(amount, account, bonusData);
+                }
+            }
+            
+            // 复制恭喜话术
+            function copyCongratulations() {
+                const textToCopy = congratsContent.innerText;
+                
+                if (textToCopy.includes("奖金计算后")) {
+                    notification.innerHTML = `<i class="fas fa-exclamation-circle"></i> 请先计算奖金`;
+                    notification.style.background = '#b21f1f';
+                    notification.classList.add('show');
+                    
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                        notification.style.background = '#1a4b7a';
+                        notification.innerHTML = `<i class="fas fa-check-circle"></i> 恭喜话术已复制到剪贴板！`;
+                    }, 3000);
+                    return;
+                }
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    // 显示通知
+                    notification.classList.add('show');
+                    
+                    // 3秒后隐藏通知
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 3000);
+                });
+            }
+            
+            // 事件监听
+            calculateBtn.addEventListener('click', updateResults);
+            copyCongratsBtn.addEventListener('click', copyCongratulations);
+            
+            // 按Enter键触发计算
+            amountInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') updateResults();
+            });
+            
+            accountInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') updateResults();
+            });
+            
+            // 初始示例数据
+            amountInput.value = "200000";
+            accountInput.value = "BWM-2023-001";
+            updateResults();
         });
     </script>
 </body>
