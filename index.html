@@ -1,646 +1,605 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>懒人操作器，适合偷懒的BWM员工</title>
+    <title>Bonus Akun Generator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
             color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .container {
-            width: 100%;
             max-width: 1200px;
-            background: rgba(255, 255, 255, 0.97);
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
             overflow: hidden;
-            display: flex;
-        }
-        
-        /* 左侧操作面板 */
-        .left-panel {
-            width: 50%;
-            background: #f8f9fa;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            border-right: 2px solid #e9ecef;
-        }
-        
-        /* 右侧结果面板 */
-        .right-panel {
-            width: 50%;
-            background: #ffffff;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
+            margin: 20px auto;
         }
         
         header {
+            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            color: white;
             text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e74c3c;
+            padding: 30px 20px;
+            position: relative;
         }
         
         header h1 {
-            font-size: 2rem;
-            color: #e74c3c;
-            margin-bottom: 8px;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         header p {
-            font-size: 1rem;
-            color: #666;
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 10px auto;
         }
         
-        .account-section {
-            margin-bottom: 20px;
+        .intro {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .content-section {
+            padding: 30px;
         }
         
         .section-title {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 1.1rem;
-            color: #e74c3c;
-            font-weight: 700;
-        }
-        
-        .section-title i {
-            margin-right: 8px;
-            font-size: 1.2rem;
-            color: #e74c3c;
-        }
-        
-        .account-input input {
-            width: 100%;
-            padding: 12px 18px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .account-input input:focus {
-            border-color: #e74c3c;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
-        }
-        
-        .prizes-section {
-            margin-bottom: 20px;
-        }
-        
-        .prize-cards {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-        
-        .prize-card {
-            background: white;
-            border-radius: 10px;
-            padding: 16px 12px;
             text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border: 2px solid #eee;
+            margin: 25px 0;
+            color: #ff4500;
+            font-size: 1.8rem;
             position: relative;
-            overflow: hidden;
         }
         
-        .prize-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        .section-title:after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            margin: 10px auto;
+            border-radius: 2px;
         }
         
-        .prize-card.fixed {
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+        .bonus-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
         
-        .prize-card.lucky {
-            background: linear-gradient(135deg, #cce5ff, #b8daff);
-        }
-        
-        .prize-card.selected {
-            border-color: #e74c3c;
-            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.3);
-        }
-        
-        .prize-card.selected::after {
-            content: "✓";
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #e74c3c;
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            font-weight: bold;
-        }
-        
-        .prize-card .prize-value {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #e74c3c;
-            margin-bottom: 6px;
-        }
-        
-        .prize-card .prize-type {
-            font-size: 0.85rem;
-            color: #555;
-            font-weight: 600;
-        }
-        
-        .generate-btn {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: auto;
-        }
-        
-        .generate-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
-        }
-        
-        .generate-btn:active {
-            transform: translateY(1px);
-        }
-        
-        /* 右侧结果面板样式 */
-        .result-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .result-header h2 {
-            font-size: 1.6rem;
-            color: #e74c3c;
-            margin-bottom: 8px;
-        }
-        
-        .result-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-radius: 12px;
-            padding: 20px;
-            border: 2px dashed #ddd;
-            box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.05);
-        }
-        
-        .result-content {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #e74c3c;
-            text-align: center;
-            word-break: break-all;
-            padding: 20px;
+        .bonus-card {
             background: white;
-            border-radius: 10px;
-            width: 100%;
-            min-height: 140px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            border-top: 5px solid;
+            transition: transform 0.3s ease;
+        }
+        
+        .bonus-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .referral-card {
+            border-top-color: #4CAF50;
+        }
+        
+        .employee-card {
+            border-top-color: #2196F3;
+        }
+        
+        .upgrade-card {
+            border-top-color: #FF9800;
+        }
+        
+        .card-title {
             display: flex;
             align-items: center;
-            justify-content: center;
             margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            color: #222;
+            font-size: 1.5rem;
+        }
+        
+        .card-title i {
+            margin-right: 12px;
+            font-size: 1.8rem;
+        }
+        
+        .bonus-item {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+        }
+        
+        .bonus-title {
+            font-weight: bold;
+            color: #ff4500;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .bonus-title i {
+            margin-right: 8px;
+        }
+        
+        .bonus-amount {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            padding-left: 28px;
+        }
+        
+        .input-group {
+            display: flex;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            color: #777;
+            font-size: 1.2rem;
+        }
+        
+        .input-group input {
+            flex: 1;
+            padding: 14px 15px 14px 45px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+        
+        .input-group input:focus {
+            border-color: #ff8c00;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+        }
+        
+        .input-group input::placeholder {
+            color: #aaa;
         }
         
         .copy-btn {
-            background: linear-gradient(135deg, #3498db, #2980b9);
+            background: linear-gradient(90deg, #ff8c00, #ff4500);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 700;
+            border-radius: 8px;
+            padding: 14px 25px;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+            font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
             width: 100%;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
         }
         
         .copy-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 18px rgba(52, 152, 219, 0.4);
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(255, 69, 0, 0.4);
         }
         
-        .history-section {
-            margin-top: 20px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        .copy-btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
         }
         
-        .history-title {
-            font-size: 1.1rem;
-            color: #e74c3c;
-            margin-bottom: 12px;
+        .custom-section {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            color: white;
+        }
+        
+        .custom-section h2 {
             text-align: center;
-            font-weight: 700;
-        }
-        
-        .history-content {
-            max-height: 180px;
-            overflow-y: auto;
-            padding: 10px;
-        }
-        
-        .history-item {
-            padding: 10px 12px;
-            border-bottom: 1px solid #eee;
+            margin-bottom: 30px;
+            font-size: 2rem;
             display: flex;
-            justify-content: space-between;
-            font-size: 0.95rem;
+            justify-content: center;
+            align-items: center;
         }
         
-        .history-item:last-child {
-            border-bottom: none;
+        .custom-section h2 i {
+            margin-right: 15px;
         }
         
-        .history-item .prizes {
-            font-weight: 600;
-            color: #2980b9;
+        .custom-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
         
-        .history-item .time {
-            color: #95a5a6;
-            font-size: 0.85rem;
+        .custom-input {
+            display: flex;
+            flex-direction: column;
         }
         
-        /* 滚动条美化 */
-        .history-content::-webkit-scrollbar {
-            width: 6px;
+        .custom-input label {
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
         }
         
-        .history-content::-webkit-scrollbar-track {
-            background: #f1f1f1;
+        .custom-input input {
+            padding: 14px 15px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .custom-input input:focus {
+            border-color: white;
+            outline: none;
+            background: rgba(255,255,255,0.25);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+        }
+        
+        .custom-input input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .custom-btn {
+            grid-column: span 2;
+            background: white;
+            color: #6a11cb;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .custom-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .custom-btn i {
+            margin-right: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 20px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 18px 30px;
             border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transform: translateX(200%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
         }
         
-        .history-content::-webkit-scrollbar-thumb {
-            background: #3498db;
-            border-radius: 10px;
+        .notification.show {
+            transform: translateX(0);
         }
         
-        .history-content::-webkit-scrollbar-thumb:hover {
-            background: #2980b9;
+        .notification i {
+            margin-right: 15px;
+            font-size: 1.5rem;
         }
         
-        /* 响应式调整 */
-        @media (max-width: 1000px) {
-            .container {
-                flex-direction: column;
-            }
-            
-            .left-panel, .right-panel {
-                width: 100%;
-            }
-            
-            .left-panel {
-                border-right: none;
-                border-bottom: 2px solid #e9ecef;
-            }
-            
-            .result-content {
-                min-height: 100px;
-            }
-        }
-        
-        @media (max-width: 600px) {
-            .prize-cards {
+        @media (max-width: 768px) {
+            .bonus-types {
                 grid-template-columns: 1fr;
             }
             
+            .custom-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .custom-btn {
+                grid-column: span 1;
+            }
+            
             header h1 {
-                font-size: 1.7rem;
-            }
-            
-            .result-header h2 {
-                font-size: 1.4rem;
-            }
-            
-            .result-content {
-                font-size: 1.3rem;
-                padding: 15px;
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 左侧操作面板 -->
-        <div class="left-panel">
-            <header>
-                <h1><i class="fas fa-coins"></i> 抽奖加钱生成器</h1>
-                <p>选择奖励并生成您的专属抽奖结果</p>
-            </header>
-            
-            <div class="account-section">
-                <div class="section-title">
-                    <i class="fas fa-user"></i>
-                    <span>账号信息</span>
-                </div>
-                <div class="account-input">
-                    <input type="text" id="account" placeholder="输入您的账号（如：81380333299）" value="81380333299" autofocus>
-                </div>
-            </div>
-            
-            <div class="prizes-section">
-                <div class="section-title">
-                    <i class="fas fa-gift"></i>
-                    <span>固定奖励（单选）</span>
-                </div>
-                <div class="prize-cards">
-                    <div class="prize-card fixed" data-value="+9900">
-                        <div class="prize-value">+9900</div>
-                        <div class="prize-type">现金奖励</div>
-                    </div>
-                    <div class="prize-card fixed" data-value="+29250">
-                        <div class="prize-value">+29250</div>
-                        <div class="prize-type">现金奖励</div>
-                    </div>
-                    <div class="prize-card fixed" data-value="+101250">
-                        <div class="prize-value">+101250</div>
-                        <div class="prize-type">现金奖励</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="prizes-section">
-                <div class="section-title">
-                    <i class="fas fa-trophy"></i>
-                    <span>抽奖奖励（可多选）</span>
-                </div>
-                <div class="prize-cards">
-                    <div class="prize-card lucky" data-value="+抽奖8000">
-                        <div class="prize-value">+抽奖8000</div>
-                        <div class="prize-type">现金奖励</div>
-                    </div>
-                    <div class="prize-card lucky" data-value="+抽奖30000">
-                        <div class="prize-value">+抽奖30000</div>
-                        <div class="prize-type">现金奖励</div>
-                    </div>
-                    <div class="prize-card lucky" data-value="+抽奖100000">
-                        <div class="prize-value">+抽奖100000</div>
-                        <div class="prize-type">现金奖励</div>
-                    </div>
-                    <div class="prize-card lucky" data-value="+抽奖300000">
-                        <div class="prize-value">+抽奖300000</div>
-                        <div class="prize-type">现金奖励</div>
-                    </div>
-                    <div class="prize-card lucky" data-value="+抽奖700000">
-                        <div class="prize-value">+抽奖700000</div>
-                        <div class="prize-type">现金奖励</div>
-                    </div>
-                    <div class="prize-card lucky" data-value="+抽奖足球">
-                        <div class="prize-value">+抽奖足球</div>
-                        <div class="prize-type">实物奖品</div>
-                    </div>
-                    <div class="prize-card lucky" data-value="+抽奖热水壶">
-                        <div class="prize-value">+抽奖热水壶</div>
-                        <div class="prize-type">实物奖品</div>
-                    </div>
-                    <div class="prize-card lucky" data-value="+抽奖电饭煲">
-                        <div class="prize-value">+抽奖电饭煲</div>
-                        <div class="prize-type">实物奖品</div>
-                    </div>
-                    <div class="prize-card lucky" data-value="+抽奖100万">
-                        <div class="prize-value">+抽奖100万</div>
-                        <div class="prize-type">超级大奖</div>
-                    </div>
-                </div>
-            </div>
-            
-            <button class="generate-btn" id="generate-btn">
-                <i class="fas fa-bolt"></i> 生成奖励组合
-            </button>
+        <header>
+            <h1><i class="fas fa-gift"></i> Bonus Akun Generator</h1>
+            <p>Salin akun dengan bonus untuk kemudahan transaksi referral</p>
+            <p>Masukkan nomor akun dan salin dengan satu klik</p>
+        </header>
+        
+        <div class="intro">
+            <p><i class="fas fa-info-circle"></i> Gunakan alat ini untuk menghasilkan format akun + bonus dengan cepat</p>
         </div>
         
-        <!-- 右侧结果面板 -->
-        <div class="right-panel">
-            <div class="result-header">
-                <h2><i class="fas fa-clipboard-check"></i> 生成结果</h2>
-                <p>您的抽奖结果将显示在这里</p>
-            </div>
+        <div class="content-section">
+            <h2 class="section-title">Pilih Jenis Bonus</h2>
             
-            <div class="result-container">
-                <div class="result-content" id="result">
-                    等待生成结果...
+            <div class="bonus-types">
+                <!-- Hadiah Referral Section -->
+                <div class="bonus-card referral-card">
+                    <div class="card-title">
+                        <i class="fas fa-handshake"></i> Hadiah Referral
+                    </div>
+                    
+                    <div class="bonus-item">
+                        <div class="bonus-title">
+                            <i class="fas fa-user-plus"></i> Referral Level M1
+                        </div>
+                        <div class="bonus-amount">Rp19.800</div>
+                        <div class="input-group">
+                            <i class="fas fa-mobile-alt"></i>
+                            <input type="text" id="referral-m1" placeholder="Masukkan nomor akun" value="85219084602">
+                        </div>
+                        <button class="copy-btn" onclick="copyAccount('referral-m1', '+19800')">
+                            <i class="fas fa-copy"></i> Salin Akun + Bonus
+                        </button>
+                    </div>
+                    
+                    <div class="bonus-item">
+                        <div class="bonus-title">
+                            <i class="fas fa-user-plus"></i> Referral Level M2
+                        </div>
+                        <div class="bonus-amount">Rp58.500</div>
+                        <div class="input-group">
+                            <i class="fas fa-mobile-alt"></i>
+                            <input type="text" id="referral-m2" placeholder="Masukkan nomor akun" value="85141356747">
+                        </div>
+                        <button class="copy-btn" onclick="copyAccount('referral-m2', '+58500')">
+                            <i class="fas fa-copy"></i> Salin Akun + Bonus
+                        </button>
+                    </div>
+                    
+                    <div class="bonus-item">
+                        <div class="bonus-title">
+                            <i class="fas fa-user-plus"></i> Referral Level M3
+                        </div>
+                        <div class="bonus-amount">Rp202.500</div>
+                        <div class="input-group">
+                            <i class="fas fa-mobile-alt"></i>
+                            <input type="text" id="referral-m3" placeholder="Masukkan nomor akun" value="85817486422">
+                        </div>
+                        <button class="copy-btn" onclick="copyAccount('referral-m3', '+202500')">
+                            <i class="fas fa-copy"></i> Salin Akun + Bonus
+                        </button>
+                    </div>
                 </div>
                 
-                <button class="copy-btn" id="copy-btn">
-                    <i class="fas fa-copy"></i> 复制结果
-                </button>
+                <!-- Bonus Karyawan Baru Section -->
+                <div class="bonus-card employee-card">
+                    <div class="card-title">
+                        <i class="fas fa-user-plus"></i> Bonus Karyawan Baru
+                    </div>
+                    
+                    <div class="bonus-item">
+                        <div class="bonus-title">
+                            <i class="fas fa-user-check"></i> Level M1
+                        </div>
+                        <div class="bonus-amount">Rp9.900</div>
+                        <div class="input-group">
+                            <i class="fas fa-mobile-alt"></i>
+                            <input type="text" id="employee-m1" placeholder="Masukkan nomor akun" value="85123456789">
+                        </div>
+                        <button class="copy-btn" onclick="copyAccount('employee-m1', '+9900')">
+                            <i class="fas fa-copy"></i> Salin Akun + Bonus
+                        </button>
+                    </div>
+                    
+                    <div class="bonus-item">
+                        <div class="bonus-title">
+                            <i class="fas fa-user-check"></i> Level M2
+                        </div>
+                        <div class="bonus-amount">Rp29.250</div>
+                        <div class="input-group">
+                            <i class="fas fa-mobile-alt"></i>
+                            <input type="text" id="employee-m2" placeholder="Masukkan nomor akun" value="85234567890">
+                        </div>
+                        <button class="copy-btn" onclick="copyAccount('employee-m2', '+29250')">
+                            <i class="fas fa-copy"></i> Salin Akun + Bonus
+                        </button>
+                    </div>
+                    
+                    <div class="bonus-item">
+                        <div class="bonus-title">
+                            <i class="fas fa-user-check"></i> Level M3
+                        </div>
+                        <div class="bonus-amount">Rp101.250</div>
+                        <div class="input-group">
+                            <i class="fas fa-mobile-alt"></i>
+                            <input type="text" id="employee-m3" placeholder="Masukkan nomor akun" value="85678901234">
+                        </div>
+                        <button class="copy-btn" onclick="copyAccount('employee-m3', '+101250')">
+                            <i class="fas fa-copy"></i> Salin Akun + Bonus
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Bonus Upgrade Section -->
+                <div class="bonus-card upgrade-card">
+                    <div class="card-title">
+                        <i class="fas fa-level-up-alt"></i> Bonus Upgrade Level
+                    </div>
+                    
+                    <div class="bonus-item">
+                        <div class="bonus-title">
+                            <i class="fas fa-arrow-up"></i> Upgrade M1 ke M2
+                        </div>
+                        <div class="bonus-amount">Rp19.350</div>
+                        <div class="input-group">
+                            <i class="fas fa-mobile-alt"></i>
+                            <input type="text" id="upgrade-m1-m2" placeholder="Masukkan nomor akun" value="85817486422">
+                        </div>
+                        <button class="copy-btn" onclick="copyAccount('upgrade-m1-m2', '+19350')">
+                            <i class="fas fa-copy"></i> Salin Akun + Bonus
+                        </button>
+                    </div>
+                    
+                    <div class="bonus-item">
+                        <div class="bonus-title">
+                            <i class="fas fa-arrow-up"></i> Upgrade M2 ke M3
+                        </div>
+                        <div class="bonus-amount">Rp72.000</div>
+                        <div class="input-group">
+                            <i class="fas fa-mobile-alt"></i>
+                            <input type="text" id="upgrade-m2-m3" placeholder="Masukkan nomor akun" value="85789012345">
+                        </div>
+                        <button class="copy-btn" onclick="copyAccount('upgrade-m2-m3', '+72000')">
+                            <i class="fas fa-copy"></i> Salin Akun + Bonus
+                        </button>
+                    </div>
+                    
+                    <div class="bonus-item">
+                        <div class="bonus-title">
+                            <i class="fas fa-arrow-up"></i> Upgrade M1 ke M3
+                        </div>
+                        <div class="bonus-amount">Rp91.350</div>
+                        <div class="input-group">
+                            <i class="fas fa-mobile-alt"></i>
+                            <input type="text" id="upgrade-m1-m3" placeholder="Masukkan nomor akun" value="85901234567">
+                        </div>
+                        <button class="copy-btn" onclick="copyAccount('upgrade-m1-m3', '+91350')">
+                            <i class="fas fa-copy"></i> Salin Akun + Bonus
+                        </button>
+                    </div>
+                </div>
             </div>
             
-            <div class="history-section">
-                <div class="history-title">
-                    <i class="fas fa-history"></i> 生成历史
-                </div>
-                <div class="history-content" id="history-content">
-                    <div class="history-item">
-                        <div class="prizes">+9900 +抽奖8000</div>
-                        <div class="time">11:25</div>
+            <div class="custom-section">
+                <h2><i class="fas fa-edit"></i> Buat Format Kustom</h2>
+                
+                <div class="custom-form">
+                    <div class="custom-input">
+                        <label for="custom-account"><i class="fas fa-mobile-alt"></i> Nomor Akun</label>
+                        <input type="text" id="custom-account" placeholder="Contoh: 85219084602">
                     </div>
-                    <div class="history-item">
-                        <div class="prizes">+29250 +抽奖足球</div>
-                        <div class="time">10:42</div>
+                    
+                    <div class="custom-input">
+                        <label for="custom-bonus"><i class="fas fa-coins"></i> Jumlah Bonus</label>
+                        <input type="text" id="custom-bonus" placeholder="Contoh: +19800">
                     </div>
-                    <div class="history-item">
-                        <div class="prizes">+101250 +抽奖100000</div>
-                        <div class="time">09:15</div>
-                    </div>
-                    <!-- 历史记录将通过JavaScript动态添加 -->
+                    
+                    <button class="custom-btn" onclick="copyCustomAccount()">
+                        <i class="fas fa-copy"></i> Salin Akun Kustom
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> Informasi akun dan bonus berhasil disalin!
+    </div>
+    
+    <footer>
+        <p>&copy; 2023 Bonus Akun Generator | Alat untuk kemudahan transaksi referral</p>
+    </footer>
 
     <script>
-        // DOM元素
-        const accountInput = document.getElementById('account');
-        const fixedPrizeCards = document.querySelectorAll('.fixed');
-        const luckyPrizeCards = document.querySelectorAll('.lucky');
-        const generateBtn = document.getElementById('generate-btn');
-        const resultElement = document.getElementById('result');
-        const copyBtn = document.getElementById('copy-btn');
-        const historyContent = document.getElementById('history-content');
-        
-        // 状态变量
-        let selectedFixedPrize = null;
-        const selectedLuckyPrizes = [];
-        
-        // 初始化固定奖励选择
-        fixedPrizeCards.forEach(card => {
-            card.addEventListener('click', () => {
-                // 移除所有固定奖励的选中状态
-                fixedPrizeCards.forEach(c => c.classList.remove('selected'));
-                
-                // 设置当前选择
-                card.classList.add('selected');
-                selectedFixedPrize = card.getAttribute('data-value');
-            });
-        });
-        
-        // 初始化抽奖奖励选择
-        luckyPrizeCards.forEach(card => {
-            card.addEventListener('click', () => {
-                card.classList.toggle('selected');
-                const prizeValue = card.getAttribute('data-value');
-                
-                if (card.classList.contains('selected')) {
-                    selectedLuckyPrizes.push(prizeValue);
-                } else {
-                    const index = selectedLuckyPrizes.indexOf(prizeValue);
-                    if (index > -1) {
-                        selectedLuckyPrizes.splice(index, 1);
-                    }
-                }
-            });
-        });
-        
-        // 生成结果
-        generateBtn.addEventListener('click', () => {
+        // Copy account with bonus
+        function copyAccount(inputId, bonus) {
+            const accountInput = document.getElementById(inputId);
             const account = accountInput.value.trim();
             
             if (!account) {
-                alert('请输入您的账号！');
+                alert('Silakan masukkan nomor akun terlebih dahulu');
+                accountInput.focus();
                 return;
             }
             
-            if (!selectedFixedPrize && selectedLuckyPrizes.length === 0) {
-                alert('请至少选择一个固定奖励或抽奖奖励！');
+            const textToCopy = account + ' ' + bonus;
+            copyToClipboard(textToCopy);
+        }
+        
+        // Copy custom account
+        function copyCustomAccount() {
+            const account = document.getElementById('custom-account').value.trim();
+            const bonus = document.getElementById('custom-bonus').value.trim();
+            
+            if (!account || !bonus) {
+                alert('Silakan isi kedua kolom untuk format kustom');
                 return;
             }
             
-            // 构建结果字符串
-            let result = account;
-            
-            if (selectedFixedPrize) {
-                result += ` ${selectedFixedPrize}`;
-            }
-            
-            selectedLuckyPrizes.forEach(prize => {
-                result += ` ${prize}`;
+            const textToCopy = account + ' ' + bonus;
+            copyToClipboard(textToCopy);
+        }
+        
+        // Copy to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification();
+            }).catch(err => {
+                console.error('Gagal menyalin teks: ', err);
+                alert('Gagal menyalin teks. Silakan coba lagi.');
             });
-            
-            // 显示结果
-            resultElement.textContent = result;
-            resultElement.style.color = '#e74c3c';
-            resultElement.style.fontWeight = '800';
-            
-            // 添加到历史记录
-            addToHistory(result.substring(account.length).trim());
-            
-            // 自动重置选择
-            setTimeout(resetSelection, 300);
-        });
-        
-        // 添加到历史记录
-        function addToHistory(prizes) {
-            const now = new Date();
-            const timeString = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-            
-            const historyItem = document.createElement('div');
-            historyItem.className = 'history-item';
-            historyItem.innerHTML = `
-                <div class="prizes">${prizes}</div>
-                <div class="time">${timeString}</div>
-            `;
-            
-            historyContent.insertBefore(historyItem, historyContent.firstChild);
-            
-            // 限制历史记录数量
-            if (historyContent.children.length > 10) {
-                historyContent.removeChild(historyContent.lastChild);
-            }
         }
         
-        // 复制结果
-        copyBtn.addEventListener('click', () => {
-            const resultText = resultElement.textContent;
+        // Show notification
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
             
-            if (!resultText || resultText === '等待生成结果...') {
-                alert('没有可复制的内容！');
-                return;
-            }
-            
-            navigator.clipboard.writeText(resultText)
-                .then(() => {
-                    // 显示复制成功效果
-                    resultElement.textContent = '✓ 已成功复制到剪贴板！';
-                    resultElement.style.color = '#27ae60';
-                    
-                    // 2秒后清空结果
-                    setTimeout(() => {
-                        resultElement.textContent = '等待生成结果...';
-                        resultElement.style.color = '#e74c3c';
-                    }, 2000);
-                })
-                .catch(err => {
-                    alert('复制失败: ' + err);
-                });
-        });
-        
-        // 重置选择函数
-        function resetSelection() {
-            // 清除选择
-            fixedPrizeCards.forEach(card => card.classList.remove('selected'));
-            luckyPrizeCards.forEach(card => card.classList.remove('selected'));
-            
-            // 重置状态
-            selectedFixedPrize = null;
-            selectedLuckyPrizes.length = 0;
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
         }
-        
-        // 自动聚焦输入框
-        accountInput.focus();
     </script>
 </body>
 </html>
