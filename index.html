@@ -1,605 +1,478 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bonus Akun Generator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>M级奖金快捷生成器</title>
+<style>
+    :root {
+        --primary-color: #2a9d8f;
+        --primary-dark: #21867a;
+        --secondary-color: #264653;
+        --light-bg: #f5f7fa;
+        --highlight-bg: #e0f0f5;
+        --error-color: #e76f51;
+        --success-color: #2a9d8f;
+        --warning-color: #f4a261;
+    }
+    
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        padding: 20px;
+        background: var(--light-bg);
+        color: #333;
+        line-height: 1.6;
+    }
+    
+    .container {
+        max-width: 750px;
+        margin: auto;
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+        text-align: center;
+        color: var(--primary-color);
+        margin-bottom: 25px;
+        font-weight: 700;
+        font-size: 28px;
+    }
+    
+    .input-group {
+        margin-bottom: 20px;
+    }
+    
+    label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 8px;
+        color: var(--secondary-color);
+    }
+    
+    input[type=text], select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s;
+    }
+    
+    input[type=text]:focus, select:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 8px rgba(42,157,143,0.3);
+    }
+    
+    .input-hint {
+        font-size: 14px;
+        color: #666;
+        margin-top: 5px;
+    }
+    
+    .conditional-field {
+        margin-top: 15px;
+        padding: 15px;
+        background-color: rgba(42, 157, 143, 0.05);
+        border-radius: 8px;
+        border-left: 3px solid var(--primary-color);
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .two-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+    
+    button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 16px 0;
+        font-size: 18px;
+        font-weight: 700;
+        background-color: var(--primary-color);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    button:hover {
+        background-color: var(--primary-dark);
+        box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+    }
+    
+    button:active {
+        transform: translateY(2px);
+    }
+    
+    .output-container {
+        margin-top: 30px;
+        position: relative;
+    }
+    
+    .output-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    .copy-btn {
+        width: auto;
+        padding: 8px 16px;
+        font-size: 14px;
+        background-color: #6c757d;
+        margin-top: 0;
+    }
+    
+    .copy-btn:hover {
+        background-color: #5a6268;
+    }
+    
+    .output {
+        white-space: pre-wrap;
+        background: var(--highlight-bg);
+        border-left: 5px solid var(--primary-color);
+        padding: 20px;
+        font-family: monospace;
+        border-radius: 8px;
+        font-size: 16px;
+        min-height: 120px;
+        color: var(--secondary-color);
+        overflow-x: auto;
+    }
+    
+    .note {
+        font-size: 14px;
+        color: #555;
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        border-left: 3px solid #6c757d;
+    }
+    
+    .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--secondary-color);
+        color: white;
+        padding: 12px 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 1000;
+    }
+    
+    .toast.show {
+        opacity: 1;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @media (max-width: 600px) {
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            color: #333;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 15px;
         }
         
         .container {
-            max-width: 1200px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            margin: 20px auto;
-        }
-        
-        header {
-            background: linear-gradient(90deg, #ff8c00, #ff4500);
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            position: relative;
-        }
-        
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 800px;
-            margin: 10px auto;
-        }
-        
-        .intro {
-            text-align: center;
-            padding: 15px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .content-section {
-            padding: 30px;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin: 25px 0;
-            color: #ff4500;
-            font-size: 1.8rem;
-            position: relative;
-        }
-        
-        .section-title:after {
-            content: "";
-            display: block;
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, #ff8c00, #ff4500);
-            margin: 10px auto;
-            border-radius: 2px;
-        }
-        
-        .bonus-types {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        
-        .bonus-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            padding: 25px;
-            border-top: 5px solid;
-            transition: transform 0.3s ease;
-        }
-        
-        .bonus-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-        
-        .referral-card {
-            border-top-color: #4CAF50;
-        }
-        
-        .employee-card {
-            border-top-color: #2196F3;
-        }
-        
-        .upgrade-card {
-            border-top-color: #FF9800;
-        }
-        
-        .card-title {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            color: #222;
-            font-size: 1.5rem;
-        }
-        
-        .card-title i {
-            margin-right: 12px;
-            font-size: 1.8rem;
-        }
-        
-        .bonus-item {
-            background: #f9f9f9;
-            border-radius: 10px;
             padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #eee;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
         }
         
-        .bonus-title {
-            font-weight: bold;
-            color: #ff4500;
-            margin-bottom: 8px;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
+        h1 {
+            font-size: 24px;
         }
         
-        .bonus-title i {
-            margin-right: 8px;
+        button {
+            padding: 14px 0;
+            font-size: 16px;
         }
         
-        .bonus-amount {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-            padding-left: 28px;
+        .two-column {
+            grid-template-columns: 1fr;
         }
-        
-        .input-group {
-            display: flex;
-            margin-bottom: 15px;
-            position: relative;
-        }
-        
-        .input-group i {
-            position: absolute;
-            left: 15px;
-            top: 15px;
-            color: #777;
-            font-size: 1.2rem;
-        }
-        
-        .input-group input {
-            flex: 1;
-            padding: 14px 15px 14px 45px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-        }
-        
-        .input-group input:focus {
-            border-color: #ff8c00;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
-        }
-        
-        .input-group input::placeholder {
-            color: #aaa;
-        }
-        
-        .copy-btn {
-            background: linear-gradient(90deg, #ff8c00, #ff4500);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 14px 25px;
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            transition: all 0.3s ease;
-            font-size: 1.1rem;
-        }
-        
-        .copy-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 15px rgba(255, 69, 0, 0.4);
-        }
-        
-        .copy-btn i {
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .custom-section {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            border-radius: 15px;
-            padding: 30px;
-            margin-top: 40px;
-            color: white;
-        }
-        
-        .custom-section h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .custom-section h2 i {
-            margin-right: 15px;
-        }
-        
-        .custom-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        
-        .custom-input {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .custom-input label {
-            margin-bottom: 8px;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-        
-        .custom-input input {
-            padding: 14px 15px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 8px;
-            font-size: 1.1rem;
-            background: rgba(255,255,255,0.15);
-            color: white;
-            transition: all 0.3s;
-        }
-        
-        .custom-input input:focus {
-            border-color: white;
-            outline: none;
-            background: rgba(255,255,255,0.25);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
-        }
-        
-        .custom-input input::placeholder {
-            color: rgba(255,255,255,0.7);
-        }
-        
-        .custom-btn {
-            grid-column: span 2;
-            background: white;
-            color: #6a11cb;
-            border: none;
-            border-radius: 8px;
-            padding: 16px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-        
-        .custom-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-        
-        .custom-btn i {
-            margin-right: 10px;
-        }
-        
-        footer {
-            text-align: center;
-            color: white;
-            padding: 20px;
-            font-size: 1rem;
-            opacity: 0.9;
-            margin-top: 20px;
-        }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #4CAF50;
-            color: white;
-            padding: 18px 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            transform: translateX(200%);
-            transition: transform 0.3s ease;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            font-size: 1.1rem;
-        }
-        
-        .notification.show {
-            transform: translateX(0);
-        }
-        
-        .notification i {
-            margin-right: 15px;
-            font-size: 1.5rem;
-        }
-        
-        @media (max-width: 768px) {
-            .bonus-types {
-                grid-template-columns: 1fr;
-            }
-            
-            .custom-form {
-                grid-template-columns: 1fr;
-            }
-            
-            .custom-btn {
-                grid-column: span 1;
-            }
-            
-            header h1 {
-                font-size: 2rem;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-gift"></i> Bonus Akun Generator</h1>
-            <p>Salin akun dengan bonus untuk kemudahan transaksi referral</p>
-            <p>Masukkan nomor akun dan salin dengan satu klik</p>
-        </header>
-        
-        <div class="intro">
-            <p><i class="fas fa-info-circle"></i> Gunakan alat ini untuk menghasilkan format akun + bonus dengan cepat</p>
-        </div>
-        
-        <div class="content-section">
-            <h2 class="section-title">Pilih Jenis Bonus</h2>
-            
-            <div class="bonus-types">
-                <!-- Hadiah Referral Section -->
-                <div class="bonus-card referral-card">
-                    <div class="card-title">
-                        <i class="fas fa-handshake"></i> Hadiah Referral
-                    </div>
-                    
-                    <div class="bonus-item">
-                        <div class="bonus-title">
-                            <i class="fas fa-user-plus"></i> Referral Level M1
-                        </div>
-                        <div class="bonus-amount">Rp19.800</div>
-                        <div class="input-group">
-                            <i class="fas fa-mobile-alt"></i>
-                            <input type="text" id="referral-m1" placeholder="Masukkan nomor akun" value="85219084602">
-                        </div>
-                        <button class="copy-btn" onclick="copyAccount('referral-m1', '+19800')">
-                            <i class="fas fa-copy"></i> Salin Akun + Bonus
-                        </button>
-                    </div>
-                    
-                    <div class="bonus-item">
-                        <div class="bonus-title">
-                            <i class="fas fa-user-plus"></i> Referral Level M2
-                        </div>
-                        <div class="bonus-amount">Rp58.500</div>
-                        <div class="input-group">
-                            <i class="fas fa-mobile-alt"></i>
-                            <input type="text" id="referral-m2" placeholder="Masukkan nomor akun" value="85141356747">
-                        </div>
-                        <button class="copy-btn" onclick="copyAccount('referral-m2', '+58500')">
-                            <i class="fas fa-copy"></i> Salin Akun + Bonus
-                        </button>
-                    </div>
-                    
-                    <div class="bonus-item">
-                        <div class="bonus-title">
-                            <i class="fas fa-user-plus"></i> Referral Level M3
-                        </div>
-                        <div class="bonus-amount">Rp202.500</div>
-                        <div class="input-group">
-                            <i class="fas fa-mobile-alt"></i>
-                            <input type="text" id="referral-m3" placeholder="Masukkan nomor akun" value="85817486422">
-                        </div>
-                        <button class="copy-btn" onclick="copyAccount('referral-m3', '+202500')">
-                            <i class="fas fa-copy"></i> Salin Akun + Bonus
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Bonus Karyawan Baru Section -->
-                <div class="bonus-card employee-card">
-                    <div class="card-title">
-                        <i class="fas fa-user-plus"></i> Bonus Karyawan Baru
-                    </div>
-                    
-                    <div class="bonus-item">
-                        <div class="bonus-title">
-                            <i class="fas fa-user-check"></i> Level M1
-                        </div>
-                        <div class="bonus-amount">Rp9.900</div>
-                        <div class="input-group">
-                            <i class="fas fa-mobile-alt"></i>
-                            <input type="text" id="employee-m1" placeholder="Masukkan nomor akun" value="85123456789">
-                        </div>
-                        <button class="copy-btn" onclick="copyAccount('employee-m1', '+9900')">
-                            <i class="fas fa-copy"></i> Salin Akun + Bonus
-                        </button>
-                    </div>
-                    
-                    <div class="bonus-item">
-                        <div class="bonus-title">
-                            <i class="fas fa-user-check"></i> Level M2
-                        </div>
-                        <div class="bonus-amount">Rp29.250</div>
-                        <div class="input-group">
-                            <i class="fas fa-mobile-alt"></i>
-                            <input type="text" id="employee-m2" placeholder="Masukkan nomor akun" value="85234567890">
-                        </div>
-                        <button class="copy-btn" onclick="copyAccount('employee-m2', '+29250')">
-                            <i class="fas fa-copy"></i> Salin Akun + Bonus
-                        </button>
-                    </div>
-                    
-                    <div class="bonus-item">
-                        <div class="bonus-title">
-                            <i class="fas fa-user-check"></i> Level M3
-                        </div>
-                        <div class="bonus-amount">Rp101.250</div>
-                        <div class="input-group">
-                            <i class="fas fa-mobile-alt"></i>
-                            <input type="text" id="employee-m3" placeholder="Masukkan nomor akun" value="85678901234">
-                        </div>
-                        <button class="copy-btn" onclick="copyAccount('employee-m3', '+101250')">
-                            <i class="fas fa-copy"></i> Salin Akun + Bonus
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Bonus Upgrade Section -->
-                <div class="bonus-card upgrade-card">
-                    <div class="card-title">
-                        <i class="fas fa-level-up-alt"></i> Bonus Upgrade Level
-                    </div>
-                    
-                    <div class="bonus-item">
-                        <div class="bonus-title">
-                            <i class="fas fa-arrow-up"></i> Upgrade M1 ke M2
-                        </div>
-                        <div class="bonus-amount">Rp19.350</div>
-                        <div class="input-group">
-                            <i class="fas fa-mobile-alt"></i>
-                            <input type="text" id="upgrade-m1-m2" placeholder="Masukkan nomor akun" value="85817486422">
-                        </div>
-                        <button class="copy-btn" onclick="copyAccount('upgrade-m1-m2', '+19350')">
-                            <i class="fas fa-copy"></i> Salin Akun + Bonus
-                        </button>
-                    </div>
-                    
-                    <div class="bonus-item">
-                        <div class="bonus-title">
-                            <i class="fas fa-arrow-up"></i> Upgrade M2 ke M3
-                        </div>
-                        <div class="bonus-amount">Rp72.000</div>
-                        <div class="input-group">
-                            <i class="fas fa-mobile-alt"></i>
-                            <input type="text" id="upgrade-m2-m3" placeholder="Masukkan nomor akun" value="85789012345">
-                        </div>
-                        <button class="copy-btn" onclick="copyAccount('upgrade-m2-m3', '+72000')">
-                            <i class="fas fa-copy"></i> Salin Akun + Bonus
-                        </button>
-                    </div>
-                    
-                    <div class="bonus-item">
-                        <div class="bonus-title">
-                            <i class="fas fa-arrow-up"></i> Upgrade M1 ke M3
-                        </div>
-                        <div class="bonus-amount">Rp91.350</div>
-                        <div class="input-group">
-                            <i class="fas fa-mobile-alt"></i>
-                            <input type="text" id="upgrade-m1-m3" placeholder="Masukkan nomor akun" value="85901234567">
-                        </div>
-                        <button class="copy-btn" onclick="copyAccount('upgrade-m1-m3', '+91350')">
-                            <i class="fas fa-copy"></i> Salin Akun + Bonus
-                        </button>
-                    </div>
-                </div>
+<div class="container">
+    <h1>M级奖金快捷生成器</h1>
+    
+    <div class="input-group">
+        <label for="account">请输入账号</label>
+        <input type="text" id="account" placeholder="例如：user123" />
+        <div class="input-hint">系统推荐奖金不需要在账号中包含M级别</div>
+    </div>
+    
+    <div class="input-group">
+        <label for="type">请选择操作类型</label>
+        <select id="type">
+            <option value="new">新员工奖金</option>
+            <option value="upgrade">升级奖金</option>
+            <option value="recommend">指导下属升级奖金</option>
+            <option value="system">M级系统推荐奖金+红包</option>
+        </select>
+    </div>
+    
+    <div id="new-level-container" class="conditional-field" style="display:none;">
+        <label for="new-level">请选择员工级别</label>
+        <select id="new-level">
+            <option value="M1">M1</option>
+            <option value="M2">M2</option>
+            <option value="M3">M3</option>
+            <option value="M4">M4</option>
+            <option value="M5">M5</option>
+            <option value="M6">M6</option>
+            <option value="M7">M7</option>
+        </select>
+    </div>
+    
+    <div id="upgrade-level-container" class="conditional-field" style="display:none;">
+        <label for="upgrade-level">请选择升级级别</label>
+        <select id="upgrade-level">
+            <option value="M1-M2">M1 → M2</option>
+            <option value="M2-M3">M2 → M3</option>
+            <option value="M3-M4">M3 → M4</option>
+            <option value="M4-M5">M4 → M5</option>
+            <option value="M5-M6">M5 → M6</option>
+            <option value="M6-M7">M6 → M7</option>
+        </select>
+    </div>
+    
+    <div id="system-container" class="conditional-field" style="display:none;">
+        <div class="two-column">
+            <div>
+                <label for="system-level">选择M级别</label>
+                <select id="system-level">
+                    <option value="M1">M1</option>
+                    <option value="M2">M2</option>
+                    <option value="M3">M3</option>
+                    <option value="M4">M4</option>
+                    <option value="M5">M5</option>
+                    <option value="M6">M6</option>
+                    <option value="M7">M7</option>
+                </select>
             </div>
-            
-            <div class="custom-section">
-                <h2><i class="fas fa-edit"></i> Buat Format Kustom</h2>
-                
-                <div class="custom-form">
-                    <div class="custom-input">
-                        <label for="custom-account"><i class="fas fa-mobile-alt"></i> Nomor Akun</label>
-                        <input type="text" id="custom-account" placeholder="Contoh: 85219084602">
-                    </div>
-                    
-                    <div class="custom-input">
-                        <label for="custom-bonus"><i class="fas fa-coins"></i> Jumlah Bonus</label>
-                        <input type="text" id="custom-bonus" placeholder="Contoh: +19800">
-                    </div>
-                    
-                    <button class="custom-btn" onclick="copyCustomAccount()">
-                        <i class="fas fa-copy"></i> Salin Akun Kustom
-                    </button>
-                </div>
+            <div>
+                <label for="lottery-type">选择抽奖内容</label>
+                <select id="lottery-type">
+                    <option value="random">抽奖随机</option>
+                    <option value="30k">抽奖3万</option>
+                    <option value="100k">抽奖10万</option>
+                    <option value="300k">抽奖30万</option>
+                </select>
             </div>
         </div>
     </div>
     
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i> Informasi akun dan bonus berhasil disalin!
+    <button onclick="generateBonus()">生成奖金文本</button>
+    
+    <div class="output-container">
+        <div class="output-label">
+            <label>生成结果</label>
+            <button class="copy-btn" onclick="copyToClipboard()">复制文本</button>
+        </div>
+        <div class="output" id="output"></div>
     </div>
     
-    <footer>
-        <p>&copy; 2023 Bonus Akun Generator | Alat untuk kemudahan transaksi referral</p>
-    </footer>
+    <div class="note">
+        <strong>说明：</strong>
+        <ul>
+            <li>新员工奖金：新员工加入时获得的奖金</li>
+            <li>升级奖金：员工升级时获得的奖金</li>
+            <li>指导下属升级奖金：指导下属升级时获得的奖金</li>
+            <li>系统推荐奖金+红包：系统推荐奖金和红包奖励</li>
+        </ul>
+        生成文本可一键复制，格式如"账号 M1-M2 + 32250"或"账号 +16500"等。<br/>
+        祝推广顺利！
+    </div>
+</div>
 
-    <script>
-        // Copy account with bonus
-        function copyAccount(inputId, bonus) {
-            const accountInput = document.getElementById(inputId);
-            const account = accountInput.value.trim();
-            
-            if (!account) {
-                alert('Silakan masukkan nomor akun terlebih dahulu');
-                accountInput.focus();
-                return;
-            }
-            
-            const textToCopy = account + ' ' + bonus;
-            copyToClipboard(textToCopy);
+<div class="toast" id="toast">文本已复制到剪贴板</div>
+
+<script>
+const newEmployeeBonuses = {
+    "M1": 16500,
+    "M2": 48750,
+    "M3": 168750,
+    "M4": "605500+任务助手",
+    "M5": "1809000+任务助手",
+    "M6": "4881600+任务助手",
+    "M7": "10062500+任务助手"
+};
+
+const upgradeBonuses = {
+    "M1-M2": {amount: 193500, note: "+升级红包"},
+    "M2-M3": {amount: 720000, note: "+升级红包"},
+    "M3-M4": {amount: 2620500, note: "+升级红包+任务助手"},
+    "M4-M5": {amount: 7221000, note: "+升级红包+任务助手"},
+    "M5-M6": {amount: 18435600, note: "+升级红包+任务助手"},
+    "M6-M7": {amount: 31085400, note: "+升级红包+任务助手"}
+};
+
+const recommendBonuses = {
+    "M1-M2": 32250,
+    "M2-M3": 120000,
+    "M3-M4": 436750,
+    "M4-M5": 1203500,
+    "M5-M6": 3072600,
+    "M6-M7": 5180900
+};
+
+// 更新系统奖金结构，使用新的金额
+const systemBonuses = {
+    "M1": { total: 99000, description: "M1红包" },
+    "M2": { total: 292500, description: "M2红包" },
+    "M3": { total: 1012500, description: "M3红包" },
+    "M4": { total: 3633000, description: "M4红包" },
+    "M5": { total: 10854000, description: "M5红包" },
+    "M6": { total: 29289600, description: "M6红包" },
+    "M7": { total: 60375000, description: "M7红包" }
+};
+
+const lotteryLabels = {
+    "random": "抽奖随机",
+    "30k": "抽奖3万",
+    "100k": "抽奖10万",
+    "300k": "抽奖30万"
+};
+
+const typeSelect = document.getElementById('type');
+const newLevelContainer = document.getElementById('new-level-container');
+const upgradeLevelContainer = document.getElementById('upgrade-level-container');
+const systemContainer = document.getElementById('system-container');
+const newLevelSelect = document.getElementById('new-level');
+const upgradeLevelSelect = document.getElementById('upgrade-level');
+const systemLevelSelect = document.getElementById('system-level');
+const lotteryTypeSelect = document.getElementById('lottery-type');
+const output = document.getElementById('output');
+const toast = document.getElementById('toast');
+
+// 根据选择的类型显示/隐藏相应的字段
+typeSelect.addEventListener('change', () => {
+    // 隐藏所有条件字段
+    newLevelContainer.style.display = 'none';
+    upgradeLevelContainer.style.display = 'none';
+    systemContainer.style.display = 'none';
+    
+    // 根据选择显示相应的字段
+    if(typeSelect.value === 'new') {
+        newLevelContainer.style.display = 'block';
+    } else if(typeSelect.value === 'upgrade' || typeSelect.value === 'recommend') {
+        upgradeLevelContainer.style.display = 'block';
+    } else if(typeSelect.value === 'system') {
+        systemContainer.style.display = 'block';
+    }
+});
+
+function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2000);
+}
+
+function generateBonus() {
+    const account = document.getElementById('account').value.trim();
+    const type = typeSelect.value;
+    let text = '';
+
+    if (!account) {
+        showToast('请输入账号');
+        output.textContent = '错误：请输入账号';
+        output.style.borderLeftColor = 'var(--error-color)';
+        return;
+    }
+
+    if(type === 'new') {
+        const level = newLevelSelect.value;
+        const amount = newEmployeeBonuses[level];
+        if (amount === undefined) {
+            showToast('无效的员工级别');
+            output.textContent = '错误：无效的员工级别';
+            output.style.borderLeftColor = 'var(--error-color)';
+            return;
+        }
+        text = `${account} +${amount}`;
+        output.style.borderLeftColor = 'var(--success-color)';
+    } else if(type === 'upgrade') {
+        const level = upgradeLevelSelect.value;
+        const bonusInfo = upgradeBonuses[level];
+        if (!bonusInfo) {
+            showToast('无效升级级别');
+            output.textContent = '错误：无效升级级别';
+            output.style.borderLeftColor = 'var(--error-color)';
+            return;
+        }
+        text = `${account} ${level} + ${bonusInfo.amount} ${bonusInfo.note}`;
+        output.style.borderLeftColor = 'var(--success-color)';
+    } else if(type === 'recommend') {
+        const level = upgradeLevelSelect.value;
+        const amount = recommendBonuses[level];
+        if (amount === undefined) {
+            showToast('无效指导升级级别');
+            output.textContent = '错误：无效指导升级级别';
+            output.style.borderLeftColor = 'var(--error-color)';
+            return;
+        }
+        text = `${account} ${level} + ${amount}`;
+        output.style.borderLeftColor = 'var(--success-color)';
+    } else if(type === 'system') {
+        const level = systemLevelSelect.value;
+        const lotteryType = lotteryTypeSelect.value;
+        const bonus = systemBonuses[level];
+        
+        if(!bonus) {
+            showToast('无效的M级别');
+            output.textContent = '错误：无效的M级别';
+            output.style.borderLeftColor = 'var(--error-color)';
+            return;
         }
         
-        // Copy custom account
-        function copyCustomAccount() {
-            const account = document.getElementById('custom-account').value.trim();
-            const bonus = document.getElementById('custom-bonus').value.trim();
-            
-            if (!account || !bonus) {
-                alert('Silakan isi kedua kolom untuk format kustom');
-                return;
-            }
-            
-            const textToCopy = account + ' ' + bonus;
-            copyToClipboard(textToCopy);
-        }
+        const lotteryLabel = lotteryLabels[lotteryType];
         
-        // Copy to clipboard
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showNotification();
-            }).catch(err => {
-                console.error('Gagal menyalin teks: ', err);
-                alert('Gagal menyalin teks. Silakan coba lagi.');
-            });
-        }
-        
-        // Show notification
-        function showNotification() {
-            const notification = document.getElementById('notification');
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-    </script>
+        text = `${account} +${bonus.total}  ${bonus.description}，${lotteryLabel}`;
+        output.style.borderLeftColor = 'var(--success-color)';
+    }
+
+    output.textContent = text;
+    showToast('奖金文本已生成');
+}
+
+function copyToClipboard() {
+    const text = output.textContent;
+    if (!text) {
+        showToast('没有内容可复制');
+        return;
+    }
+    
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('文本已复制到剪贴板');
+    }).catch(err => {
+        showToast('复制失败，请手动复制');
+        console.error('复制失败:', err);
+    });
+}
+</script>
 </body>
 </html>
