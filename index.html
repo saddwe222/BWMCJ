@@ -338,7 +338,6 @@ const recommendBonuses = {
     "M6-M7": 5180900
 };
 
-// 更新系统奖金结构，使用新的金额
 const systemBonuses = {
     "M1": { total: 99000, description: "M1红包" },
     "M2": { total: 292500, description: "M2红包" },
@@ -435,7 +434,7 @@ function generateBonus() {
             output.style.borderLeftColor = 'var(--error-color)';
             return;
         }
-        text = `${account} ${level} + ${amount}`;
+        text = `${account} +${amount}`;
         output.style.borderLeftColor = 'var(--success-color)';
     } else if(type === 'system') {
         const level = systemLevelSelect.value;
