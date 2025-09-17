@@ -256,6 +256,14 @@
             <option value="M5-M6">M5 → M6</option>
             <option value="M6-M7">M6 → M7</option>
         </select>
+        <div class="input-group">
+            <label for="upgrade-lottery-type">选择抽奖内容</label>
+            <select id="upgrade-lottery-type">
+                <option value="random">抽奖随机</option>
+                <option value="30k">抽奖3万</option>
+                <option value="100k">抽奖10万</option>
+            </select>
+        </div>
     </div>
     
     <div id="system-container" class="conditional-field" style="display:none;">
@@ -298,11 +306,11 @@
         <strong>说明：</strong>
         <ul>
             <li>新员工奖金：新员工加入时获得的奖金</li>
-            <li>升级奖金：员工升级时获得的奖金</li>
+            <li>升级奖金：员工升级时获得的奖金，包含幸运抽奖</li>
             <li>指导下属升级奖金：指导下属升级时获得的奖金</li>
             <li>系统推荐奖金+红包：系统推荐奖金和红包奖励</li>
         </ul>
-        生成文本可一键复制，格式如"账号 M1-M2 + 32250"或"账号 +16500"等。<br/>
+        生成文本可一键复制，格式如"账号 M1-M2 + 225750 + 红包 + 抽奖随机"或"账号 +33000"等。<br/>
         祝推广顺利！
     </div>
 </div>
@@ -311,41 +319,41 @@
 
 <script>
 const newEmployeeBonuses = {
-    "M1": 16500,
-    "M2": 48750,
-    "M3": 168750,
-    "M4": "605500+任务助手",
-    "M5": "1809000+任务助手",
-    "M6": "4881600+任务助手",
-    "M7": "10062500+任务助手"
+    "M1": "33000",
+    "M2": "97500",
+    "M3": "337500",
+    "M4": "1211000+任务助手",
+    "M5": "3618000+任务助手",
+    "M6": "9763200+任务助手",
+    "M7": "20125000+任务助手"
 };
 
 const upgradeBonuses = {
-    "M1-M2": {amount: 193500, note: "+升级红包"},
-    "M2-M3": {amount: 720000, note: "+升级红包"},
-    "M3-M4": {amount: 2620500, note: "+升级红包+任务助手"},
-    "M4-M5": {amount: 7221000, note: "+升级红包+任务助手"},
-    "M5-M6": {amount: 18435600, note: "+升级红包+任务助手"},
-    "M6-M7": {amount: 31085400, note: "+升级红包+任务助手"}
+    "M1-M2": {amount: "225750", note: "+红包+幸运抽奖", extraDraws: 1},
+    "M2-M3": {amount: "840000", note: "+红包+幸运抽奖", extraDraws: 1},
+    "M3-M4": {amount: "3057250", note: "+红包+任务助手+2次幸运抽奖", extraDraws: 2},
+    "M4-M5": {amount: "8424500", note: "+红包+任务助手+2次幸运抽奖", extraDraws: 2},
+    "M5-M6": {amount: "21508200", note: "+红包+任务助手+2次幸运抽奖", extraDraws: 2},
+    "M6-M7": {amount: "36266300", note: "+红包+任务助手+2次幸运抽奖", extraDraws: 2}
 };
 
 const recommendBonuses = {
-    "M1-M2": 32250,
-    "M2-M3": 120000,
-    "M3-M4": 436750,
-    "M4-M5": 1203500,
-    "M5-M6": 3072600,
-    "M6-M7": 5180900
+    "M1-M2": "115500",
+    "M2-M3": "341250",
+    "M3-M4": "1181250",
+    "M4-M5": "4238500",
+    "M5-M6": "12663000",
+    "M6-M7": "70437500"
 };
 
 const systemBonuses = {
-    "M1": { total: 99000, description: "M1红包" },
-    "M2": { total: 292500, description: "M2红包" },
-    "M3": { total: 1012500, description: "M3红包" },
-    "M4": { total: 3633000, description: "M4红包" },
-    "M5": { total: 10854000, description: "M5红包" },
-    "M6": { total: 29289600, description: "M6红包" },
-    "M7": { total: 60375000, description: "M7红包" }
+    "M1": { total: "115500", description: "M1红包" },
+    "M2": { total: "341250", description: "M2红包" },
+    "M3": { total: "1181250", description: "M3红包" },
+    "M4": { total: "4238500", description: "M4红包" },
+    "M5": { total: "12663000", description: "M5红包" },
+    "M6": { total: "34171200", description: "M6红包" },
+    "M7": { total: "70437500", description: "M7红包" }
 };
 
 const lotteryLabels = {
@@ -363,17 +371,15 @@ const newLevelSelect = document.getElementById('new-level');
 const upgradeLevelSelect = document.getElementById('upgrade-level');
 const systemLevelSelect = document.getElementById('system-level');
 const lotteryTypeSelect = document.getElementById('lottery-type');
+const upgradeLotteryTypeSelect = document.getElementById('upgrade-lottery-type');
 const output = document.getElementById('output');
 const toast = document.getElementById('toast');
 
-// 根据选择的类型显示/隐藏相应的字段
 typeSelect.addEventListener('change', () => {
-    // 隐藏所有条件字段
     newLevelContainer.style.display = 'none';
     upgradeLevelContainer.style.display = 'none';
     systemContainer.style.display = 'none';
     
-    // 根据选择显示相应的字段
     if(typeSelect.value === 'new') {
         newLevelContainer.style.display = 'block';
     } else if(typeSelect.value === 'upgrade' || typeSelect.value === 'recommend') {
@@ -416,6 +422,7 @@ function generateBonus() {
         output.style.borderLeftColor = 'var(--success-color)';
     } else if(type === 'upgrade') {
         const level = upgradeLevelSelect.value;
+        const lotteryType = upgradeLotteryTypeSelect.value;
         const bonusInfo = upgradeBonuses[level];
         if (!bonusInfo) {
             showToast('无效升级级别');
@@ -423,7 +430,9 @@ function generateBonus() {
             output.style.borderLeftColor = 'var(--error-color)';
             return;
         }
-        text = `${account} ${level} + ${bonusInfo.amount} ${bonusInfo.note}`;
+        const lotteryLabel = lotteryLabels[lotteryType];
+        const drawText = bonusInfo.extraDraws > 1 ? `${bonusInfo.extraDraws}次${lotteryLabel}` : lotteryLabel;
+        text = `${account} ${level} + ${bonusInfo.amount} ${bonusInfo.note.replace('幸运抽奖', drawText)}`;
         output.style.borderLeftColor = 'var(--success-color)';
     } else if(type === 'recommend') {
         const level = upgradeLevelSelect.value;
@@ -449,8 +458,7 @@ function generateBonus() {
         }
         
         const lotteryLabel = lotteryLabels[lotteryType];
-        
-        text = `${account} +${bonus.total}  ${bonus.description}，${lotteryLabel}`;
+        text = `${account} +${bonus.total} ${bonus.description}，${lotteryLabel}`;
         output.style.borderLeftColor = 'var(--success-color)';
     }
 
