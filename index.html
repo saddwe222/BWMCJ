@@ -254,7 +254,7 @@
                         <option value="M5">M5</option>
                     </select>
                 </div>
-                <div>
+                <div id="lottery-type-container">
                     <label for="lottery-type">选择抽奖内容</label>
                     <select id="lottery-type" aria-label="抽奖内容">
                         <option value="random">抽奖随机</option>
@@ -281,7 +281,7 @@
                 <li>新员工奖金：新员工加入时获得的奖金</li>
                 <li>升级奖金：员工升级时获得的奖金，包含幸运抽奖</li>
                 <li>指导下属升级奖金：指导下属升级时获得的奖金</li>
-                <li>系统推荐奖金+红包：系统推荐奖金和红包奖励</li>
+                <li>系统推荐奖金+红包：系统推荐奖金和红包奖励（M1、M2无抽奖）</li>
             </ul>
             生成文本可一键复制，格式如"账号 M1-M2 + 258000 + 抽奖随机"或"账号 +49500"等。<br>
             祝推广顺利！
@@ -340,6 +340,7 @@
             newLevelContainer: document.getElementById('new-level-container'),
             upgradeLevelContainer: document.getElementById('upgrade-level-container'),
             systemContainer: document.getElementById('system-container'),
+            lotteryTypeContainer: document.getElementById('lottery-type-container'),
             output: document.getElementById('output'),
             toast: document.getElementById('toast')
         };
@@ -348,6 +349,14 @@
             DOM.newLevelContainer.style.display = type === 'new' ? 'block' : 'none';
             DOM.upgradeLevelContainer.style.display = ['upgrade', 'recommend'].includes(type) ? 'block' : 'none';
             DOM.systemContainer.style.display = type === 'system' ? 'block' : 'none';
+            if (type === 'system') {
+                toggleLotteryTypeVisibility();
+            }
+        }
+
+        function toggleLotteryTypeVisibility() {
+            const level = DOM.systemLevel.value;
+            DOM.lotteryTypeContainer.style.display = ['M3', 'M4', 'M5'].includes(level) ? 'block' : 'none';
         }
 
         function showToast(message, isError = false) {
@@ -411,15 +420,19 @@
                 }
                 case 'system': {
                     const level = DOM.systemLevel.value;
-                    const lotteryType = DOM.lotteryType.value;
                     const bonus = BONUSES.system[level];
                     if (!bonus) {
                         showToast('无效的M级别', true);
                         DOM.output.textContent = '错误：无效的M级别';
                         return;
                     }
-                    const lotteryLabel = LOTTERY_LABELS[lotteryType];
-                    text = `${account} +${bonus.total} ${bonus.description}, ${lotteryLabel}`;
+                    if (['M3', 'M4', 'M5'].includes(level)) {
+                        const lotteryType = DOM.lotteryType.value;
+                        const lotteryLabel = LOTTERY_LABELS[lotteryType];
+                        text = `${account} +${bonus.total} ${bonus.description}, ${lotteryLabel}`;
+                    } else {
+                        text = `${account} +${bonus.total} ${bonus.description}`;
+                    }
                     break;
                 }
                 default:
@@ -447,6 +460,7 @@
         }
 
         DOM.type.addEventListener('change', () => toggleContainers(DOM.type.value));
+        DOM.systemLevel.addEventListener('change', toggleLotteryTypeVisibility);
         DOM.account.addEventListener('input', () => {
             if (DOM.account.value.trim() && !validateAccount(DOM.account.value.trim())) {
                 DOM.account.setCustomValidity('账号需为3-20位字母或数字');
@@ -454,6 +468,9 @@
                 DOM.account.setCustomValidity('');
             }
         });
+
+        // Initialize visibility on page load
+        toggleContainers(DOM.type.value);
     </script>
 </body>
 </html>
